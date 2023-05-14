@@ -24,6 +24,18 @@ $myArray = array
     "last_name" => "dehghani",
     "phone_number" => "09179679459",
 );
+$my2Array = array
+(
+    "first_name" => "rezan",
+    "email" => "reza@dhi",
+    "last_name" => "dehg",
+    "phone_number" => "09359679459",
+);
+
+
+$row = $usersTable->fetchAll();
+print_r($row);
+
 
 // function e(array $argv)
 // {

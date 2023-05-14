@@ -20,6 +20,9 @@ class Table
         $this->connection = $database->getConnection();
     }
 
+
+    // Getters ----------------------------------------------------------------
+
     public function getDatabase()
     {
         return $this->database;
@@ -45,19 +48,18 @@ class Table
         return $columnNames;
     }
 
+
+    // Creating Table methods ----------------------------------------------------------------
+
     public function createTableQuery() 
     {
-        // Start creating the query
         $query = "CREATE TABLE IF NOT EXISTS `$this->name` (";
         
-        // Add columns query string;
         foreach ($this->columns as $column)
             $query .= $column . " ,";
         
-        // Remove the last comma from the query
         $query = rtrim($query, ',');
         
-        // Close the query
         $query .= ');';
 
         return $query;
@@ -78,6 +80,9 @@ class Table
         }
     }
 
+
+    // Delete Table Methods ----------------------------------------------------------------
+
     public function delete($id)
     {
 
@@ -94,11 +99,13 @@ class Table
         $stmt->execute();
     }
 
+
+    // Update Table Methods ----------------------------------------------------------------
     public function update()
     {
     }
 
-    // insert Method ----------------------------------------------------------------
+    // Drop Table Methods ----------------------------------------------------------------
 
     public function dropTable()
     {
@@ -116,7 +123,7 @@ class Table
     }
 
 
-    // insert Method ----------------------------------------------------------------
+    // insert Methods ----------------------------------------------------------------
 
     private function prepareInsert()
     {
@@ -171,17 +178,14 @@ class Table
 
     }
 
-    // End of insert Method ----------------------------------------------------------------
 
+    // Fetch Methods ----------------------------------------------------------------
 
-    // Fetch Method ----------------------------------------------------------------
-
-    public function prepareFetch(string $fetchMethod = null)
+    public function prepareFetch()
     {
         $this->result = $this->connection->prepare("SELECT * FROM " . $this->getName());
         $this->result->execute();
 
-        $this->result->setFetchMethod($fetchMethod);
         $this->prepareFetchStatus = true;
     }
 
@@ -190,7 +194,7 @@ class Table
         if ($this->prepareFetchStatus == false)
             $this->prepareFetch($fetchMethod);
 
-        $tmp = $this->result->fetch();
+        $tmp = $this->result->fetch($fetchMethod);
 
         if (!$tmp)
         {
@@ -203,13 +207,11 @@ class Table
     public function fetchAll(string $fetchMethod = PDO::FETCH_ASSOC)
     {
         if ($this->prepareFetchStatus == false)
-            $this->prepareFetch($fetchMethod);
+            $this->prepareFetch();
 
-        return $this->result->fetchAll();
+        return $this->result->fetchAll($fetchMethod);
 
         $this->prepareFetchStatus = false;
     }
-
-    // End of fetch Method ----------------------------------------------------------------
 }
 ?>
