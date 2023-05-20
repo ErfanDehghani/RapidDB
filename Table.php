@@ -2,7 +2,7 @@
 
 include "Column.php";
 
-class Table
+class Table extends Column
 {
     private $columns = null;
     private $name = null;
@@ -101,8 +101,25 @@ class Table
 
 
     // Update Table Methods ----------------------------------------------------------------
-    public function update()
+
+    private function createWhereStatement(array $arguments)
     {
+        $whereStatement = ' WHERE ';
+
+        foreach ($arguments as $key => $value) {
+            $whereStatement .= $key . ' = ' . $value . ' AND ';
+        }
+
+        $whereStatement = rtrim($whereStatement, ' AND ');
+
+        return $whereStatement;
+    }
+
+    public function update(array $arguments)
+    {
+        print_r($arguments);
+        $whereStatement = $this->createWhereStatement($arguments);
+        echo $whereStatement;
     }
 
     // Drop Table Methods ----------------------------------------------------------------

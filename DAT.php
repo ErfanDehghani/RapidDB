@@ -34,7 +34,7 @@ $my2Array = array
 
 
 $row = $usersTable->fetchAll();
-print_r($row);
+$usersTable->update(array('id' => '1', 'first_name' => 'erfan'));
 
 
 // function e(array $argv)
