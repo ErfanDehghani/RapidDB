@@ -115,11 +115,25 @@ class Table extends Column
         return $whereStatement;
     }
 
-    public function update(array $arguments)
+    private function createSetStatement(array $arguments)
     {
-        print_r($arguments);
-        $whereStatement = $this->createWhereStatement($arguments);
-        echo $whereStatement;
+        $setStatement = ' SET ';
+
+        foreach ($arguments as $key => $value) {
+            $setStatement .= $key . ' = ' . $value . ', ';
+        }
+
+        $setStatement = rtrim($setStatement, ', ');
+
+        return $setStatement;
+    }
+
+    public function update(array $identifiers, array $changes)
+    {
+        $statement = "UPDATE " . $this->getName();
+        $statement .= $this->createSetStatement($changes);
+        $statement .= $this->createWhereStatement($identifiers);
+        echo $statement;
     }
 
     // Drop Table Methods ----------------------------------------------------------------
