@@ -13,12 +13,12 @@ class Table
     private $prepareFetchStatus = false;
     private $prepareInsertStatus = false;
     
-    public function __construct($tableName, $columns, $database) 
+    public function __construct($TableName, $ColumnsArray, $Database) 
     {
-        $this->columns = $columns;
-        $this->name = $tableName;
-        $this->database = $database;
-        $this->connection = $database->getConnection();
+        $this->columns = $ColumnsArray;
+        $this->name = $TableName;
+        $this->database = $Database;
+        $this->connection = $Database->getConnection();
     }
 
 
