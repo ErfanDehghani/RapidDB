@@ -1,7 +1,5 @@
 <?php
 
-include "Table.php";
-
 class Database
 {
     private $host;

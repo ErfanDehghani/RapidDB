@@ -1,9 +1,9 @@
 <?php
 
-include "Database.php";
+include "Table.php";
 $testDb = new Database("localhost", "just_testing", 'root', '');
 
-$usersTable = new Table(
+$userTable = new Table(
     "users",
     [
         new Column('id', 'INT', 6, 'AUTO_INCREMENT', false, true),
@@ -51,6 +51,5 @@ $my2Array = array
 //             echo "unknown command.";
 //     }
 // }
-
 // e($argv);
 ?>
