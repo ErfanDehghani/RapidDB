@@ -107,7 +107,7 @@ class Table extends Column
         $whereStatement = ' WHERE ';
 
         foreach ($arguments as $key => $value) {
-            $whereStatement .= $key . ' = ' . $value . ' AND ';
+            $whereStatement .= $key . ' = :' . $key . ' AND ';
         }
 
         $whereStatement = rtrim($whereStatement, ' AND ');
@@ -120,7 +120,7 @@ class Table extends Column
         $setStatement = ' SET ';
 
         foreach ($arguments as $key => $value) {
-            $setStatement .= $key . ' = ' . $value . ', ';
+            $setStatement .= $key . ' = :idf_' . $key . ', ';
         }
 
         $setStatement = rtrim($setStatement, ', ');
@@ -133,7 +133,30 @@ class Table extends Column
         $statement = "UPDATE " . $this->getName();
         $statement .= $this->createSetStatement($changes);
         $statement .= $this->createWhereStatement($identifiers);
-        echo $statement;
+
+        try {
+            $preparedStatement = $this->connection->prepare($statement);
+
+            foreach ($identifiers as $key => $value) {
+                $preparedStatement->bindValue(':' . $key, $value);
+            }
+
+            foreach ($changes as $key => $value) {
+                $preparedStatement->bindValue(':idf_' . $key, $value);
+            }
+
+            $preparedStatement->execute();
+
+            $rowCount = $preparedStatement->rowCount();
+
+            if ($rowCount > 0) {
+                echo "Successfully updated " . $rowCount . " rows in " . $this->getName();
+            } else {
+                echo "No rows were updated in " . $this->getName();
+            }
+        } catch (PDOException $e) {
+            throw new Exception("Error updating table: " . $e->getMessage());
+        }
     }
 
     // Drop Table Methods ----------------------------------------------------------------

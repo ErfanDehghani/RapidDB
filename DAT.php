@@ -32,11 +32,6 @@ $my2Array = array
     "phone_number" => "09359679459",
 );
 
-
-$row = $usersTable->fetchAll();
-$usersTable->update(array('id' => '1', 'first_name' => 'erfan'), array("first_name" => 'aref', "last_name" => 'solmaz'));
-
-
 // function e(array $argv)
 // {
 //     print_r($argv);
