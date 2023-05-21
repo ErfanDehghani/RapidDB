@@ -1,8 +1,9 @@
 <?php 
 
+include "Database.php";
 include "Column.php";
 
-class Table extends Column
+class Table
 {
     private $columns = null;
     private $name = null;
@@ -81,9 +82,9 @@ class Table extends Column
     }
 
 
-    // Delete Table Methods ----------------------------------------------------------------
+    // Delete From Table Methods ----------------------------------------------------------------
 
-    public function delete($id)
+    public function delete($id) : void
     {
 
         // Prepare the SQL statement
@@ -102,7 +103,7 @@ class Table extends Column
 
     // Update Table Methods ----------------------------------------------------------------
 
-    private function createWhereStatement(array $arguments)
+    private function createWhereStatement(array $arguments) : string
     {
         $whereStatement = ' WHERE ';
 
@@ -115,7 +116,7 @@ class Table extends Column
         return $whereStatement;
     }
 
-    private function createSetStatement(array $arguments)
+    private function createSetStatement(array $arguments) : string
     {
         $setStatement = ' SET ';
 
@@ -128,7 +129,7 @@ class Table extends Column
         return $setStatement;
     }
 
-    public function update(array $identifiers, array $changes)
+    public function update(array $identifiers, array $changes) : void
     {
         $statement = "UPDATE " . $this->getName();
         $statement .= $this->createSetStatement($changes);
@@ -161,7 +162,7 @@ class Table extends Column
 
     // Drop Table Methods ----------------------------------------------------------------
 
-    public function dropTable()
+    public function dropTable() : void
     {
         try
         {
@@ -179,7 +180,7 @@ class Table extends Column
 
     // insert Methods ----------------------------------------------------------------
 
-    private function prepareInsert()
+    private function prepareInsert() : void
     {
         $keys = implode(', ', $this->getColumnNames());
         $values = ":".implode(", :", $this->getColumnNames());
