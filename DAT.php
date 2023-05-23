@@ -1,5 +1,7 @@
 <?php
 
+use CreateFile\FILETYPES;
+
 include "Table.php";
 $testDb = new Database("localhost", "just_testing", 'root', '');
 
@@ -32,24 +34,7 @@ $my2Array = array
     "phone_number" => "09359679459",
 );
 
-// function e(array $argv)
-// {
-//     print_r($argv);
-//     switch ($argv[1]){
-//         case "ct":
-//             try
-//             {
-//                 $tableName = $argv[2];
-//                 ($$tableName)->createTable();
-//             }
-//             catch (Exception $e)
-//             {
-//                 echo "An error occurred: " . $e->getMessage();
-//             }
-//             break;
-//         default:
-//             echo "unknown command.";
-//     }
-// }
-// e($argv);
+include "CreateFile.php";
+
+new CreateFile($userTable->getName(), FILETYPES::DATABASE_CLASS)
 ?>

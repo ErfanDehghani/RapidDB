@@ -4,5 +4,5 @@ namespace CreateFile;
 
 class FILETYPES
 {
-    public const DATABASE_CLASS = 1;
+    public const DATABASE_CLASS = "DBClass";
 }
