@@ -268,5 +268,28 @@ class Table
 
         $this->prepareFetchStatus = false;
     }
+
+    // Adding foreign keys to table ----------------------------------------------------------------
+        
+    public function addForeignKey($columnName, $referencedTable, $referencedColumn)
+    {
+        // Find the column by name
+        $column = null;
+        foreach ($this->columns as $col) {
+            if ($col->getName() === $columnName) {
+                $column = $col;
+                break;
+            }
+        }
+
+        // If the column is found, set the foreign key properties
+        if ($column !== null) {
+            $column->setForeignKey(true);
+            $column->setReferenceTable($referencedTable);
+            $column->setReferenceColumn($referencedColumn);
+        } else {
+            throw new Exception("Column '$columnName' not found.");
+        }
+    }
 }
 ?>
