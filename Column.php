@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Column {
     private $name;
@@ -7,6 +7,9 @@ class Column {
     private $default;
     private $nullable;
     private $primaryKey;
+    private $foreignKey;
+    private $referenceTable;
+    private $referenceColumn;
     
     public function __construct($name, $type, $length = null, $default = null, $nullable = false, $primaryKey = false) {
         $this->name = $name;
@@ -15,6 +18,9 @@ class Column {
         $this->default = $default;
         $this->nullable = $nullable;
         $this->primaryKey = $primaryKey;
+        $this->foreignKey = false;
+        $this->referenceTable = null;
+        $this->referenceColumn = null;
     }
     
     public function getName() {
@@ -41,6 +47,31 @@ class Column {
         return $this->primaryKey;
     }
     
+    public function isForeignKey() {
+        return $this->foreignKey;
+    }
+    
+    public function getReferenceTable() {
+        return $this->referenceTable;
+    }
+
+    public function getReferenceColumn() {
+        return $this->referenceColumn;
+    }
+
+        
+    public function setForeignKey($foreignKey) {
+        $this->foreignKey = $foreignKey;
+    }
+    
+    public function setReferenceTable($referenceTable) {
+        $this->referenceTable = $referenceTable;
+    }
+    
+    public function setReferenceColumn($referenceColumn) {
+        $this->referenceColumn = $referenceColumn;
+    }
+    
     public function __toString() 
     {
         $columnString = $this->name . ' ' . $this->type;
@@ -59,6 +90,9 @@ class Column {
         
         if ($this->primaryKey) 
             $columnString .= ' PRIMARY KEY';
+        
+        if ($this->foreignKey) 
+            $columnString .= ' FOREIGN KEY REFERENCES ' . $this->referenceTable . '(' . $this->referenceColumn . ')';
         
         return $columnString;
     }
